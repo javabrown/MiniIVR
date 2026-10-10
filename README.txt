@@ -18,3 +18,16 @@ Run:
 
 The WAV files are already included. They are 8 kHz, mono, 16-bit PCM WAV files,
 which is suitable for a basic telephony/IVR POC.
+
+
+--- 
+
+#TEST : 
+Install Linphone 
+
+then 
+---
+
+Troubeshoot/Debug call by logging into fs_cli 
+
+docker exec -ti miniivr fs_cli
