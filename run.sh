@@ -56,4 +56,4 @@ echo "  Password: $SIP_PASSWORD"
 echo "  Domain:   $HOST_IP"
 echo "  Port:     5060"
 echo
-echo "Dial 5000"
+echo "Dial 9199"
