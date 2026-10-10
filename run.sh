@@ -30,36 +30,6 @@ echo "Stopping/removing previous MiniIVR..."
 docker rm -f "$CONTAINER" >/dev/null 2>&1 || true
 docker image rm -f "$APP_IMAGE" >/dev/null 2>&1 || true
 
-# Re-create dialplan on every run.
-cat > generated/99-mini-ivr.xml <<'XML'
-<include>
-  <extension name="mini_ivr_poc">
-    <condition field="destination_number" expression="^5000$">
-      <action application="answer"/>
-      <action application="sleep" data="500"/>
-      <action application="play_and_get_digits"
-              data="1 1 3 5000 # $${sounds_dir}/poc/menu.wav $${sounds_dir}/poc/invalid.wav poc_choice ^[12]$ 2000"/>
-      <action application="execute_extension"
-              data="poc-${poc_choice} XML default"/>
-    </condition>
-  </extension>
-
-  <extension name="mini_ivr_sales">
-    <condition field="destination_number" expression="^poc-1$">
-      <action application="playback" data="$${sounds_dir}/poc/sales.wav"/>
-      <action application="hangup"/>
-    </condition>
-  </extension>
-
-  <extension name="mini_ivr_support">
-    <condition field="destination_number" expression="^poc-2$">
-      <action application="playback" data="$${sounds_dir}/poc/support.wav"/>
-      <action application="hangup"/>
-    </condition>
-  </extension>
-</include>
-XML
-
 echo "Building fresh image..."
 docker build --pull --no-cache -t "$APP_IMAGE" .
 
