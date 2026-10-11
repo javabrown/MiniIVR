@@ -31,7 +31,7 @@ docker rm -f "$CONTAINER" >/dev/null 2>&1 || true
 docker image rm -f "$APP_IMAGE" >/dev/null 2>&1 || true
 
 echo "Building fresh image..."
-docker build --pull --no-cache -t "$APP_IMAGE" .
+docker build --pull --no-cache --build-arg HOST_IP="$HOST_IP" -t "$APP_IMAGE" .
 
 echo "Starting MiniIVR..."
 docker run -d \
