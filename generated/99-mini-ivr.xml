@@ -27,10 +27,40 @@
 
   <extension name="mini_ivr_support">
     <condition field="destination_number" expression="^poc-2$">
-      <action application="playback"
-              data="$${sounds_dir}/poc/support.wav"/>
-      <action application="hangup"/>
+      <action application="curl" data="https://raw.githubusercontent.com/javabrown/jNet2/refs/heads/main/data/status.json"/>
+      <action application="log" data="NOTICE HTTP=${curl_response_code} RESPONSE=${curl_response_data}"/>
+      <action application="execute_extension" data="card-status-router XML default"/>
     </condition>
+  </extension>
+
+
+
+
+
+  <extension name="card_status_router">
+
+    <condition field="destination_number" expression="^card-status-router$">
+
+      <!-- HTTP call succeeded -->
+      <condition field="${curl_response_code}" expression="^200$">
+
+        <!-- Card is ready -->
+        <condition field="${curl_response_data}" expression=".*ReadyToActivate.*">
+          <action application="playback" data="$${sounds_dir}/poc/sales.wav"/>
+          <action application="hangup"/>
+
+          <!-- HTTP 200, but card is NOT ReadyToActivate -->
+          <anti-action application="playback" data="$${sounds_dir}/poc/support.wav"/>
+          <anti-action application="hangup"/>
+        </condition>
+
+        <!-- API returned something other than HTTP 200 -->
+        <anti-action application="playback" data="$${sounds_dir}/poc/support.wav"/>
+        <anti-action application="hangup"/>
+      </condition>
+
+    </condition>
+
   </extension>
 
 </include>

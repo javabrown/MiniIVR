@@ -59,3 +59,11 @@ chmod +x run.sh
 Troubeshoot/Debug call by logging into fs_cli 
 
 docker exec -ti miniivr fs_cli
+
+
+~~~~~~~~~
+Load `mod_curl` to make HTTP/REST requests directly from a dialplan
+
+## Verify `mod_curl` installation ==>  docker exec miniivr fs_cli -x 'module_exists mod_curl'
+
+## If not install, Install `mod_curl` ==>  docker exec miniivr fs_cli -x 'load mod_curl'

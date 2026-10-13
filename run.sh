@@ -48,6 +48,8 @@ docker run -d \
   -e FREESWITCH_RTP_END="16484" \
   "$APP_IMAGE" >/dev/null
 
+
+
 echo
 echo "MiniIVR is starting."
 echo "Linphone:"
