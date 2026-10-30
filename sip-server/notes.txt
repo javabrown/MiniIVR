@@ -1,0 +1,2 @@
+sipp <java_server_ip>:5060 -sf test.xml -m 1
+
